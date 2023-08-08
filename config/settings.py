@@ -37,21 +37,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'modeltranslation',
+    'graphene_django',
     'strawberry',
     'apps.main',
     'apps.blog',
-    'apps.vacancy'
+    'apps.vacancy',
+    # 'graphene-django-filter'
 ]
-
+# Graphql settings
+GRAPHENE = {
+    'SCHEMA': 'apps.blog.schema.schema',
+    'SCHEMA': 'apps.main.schema.schema',
+    'SCHEMA': 'apps.vacancy.schema.schema',
+    'BATCH': True
+    # 'MIDDLEWARE': [
+    #     # ...
+    #     'graphene_django.batch.DjangoBatchMiddleware',
+    # ],
+}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.contrib.auth.middleware.AuthenticationMiddleware'
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'graphene_django.batch.DjangoBatchMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -128,6 +147,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+LANGUAGES = (
+    ("en", "English"),
+    ("ru", "Russian"),
+    ("uz", "Uzbek"),
+)
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
+MODELTRANSLATION_LANGUAGES = ("en", "ru", "uz")
+
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'apps.vacancy.translation',
+    # 'apps.main.translation',
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

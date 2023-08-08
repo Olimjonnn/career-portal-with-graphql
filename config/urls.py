@@ -16,20 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from strawberry.django.views import GraphQLView
-from apps.main.schema import schema
-from apps.vacancy.schema import schema as main_schema
+from graphene_django.views import GraphQLView
+from apps.main.schema import schema as main_schema
+from apps.vacancy.schema import schema as vacancy_schema
 from apps.blog.schema import schema as blog_schema
 
 from django.conf import settings
-from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("graphql", GraphQLView.as_view(schema=schema)),
-    path("graphql2", GraphQLView.as_view(schema=main_schema)),
-    path("graphql3", GraphQLView.as_view(schema=blog_schema)),
+    path("graphql", GraphQLView.as_view(graphiql=True, schema=main_schema)),
+    path("graphql2", GraphQLView.as_view(graphiql=True, schema=vacancy_schema)),
+    path("graphql3", GraphQLView.as_view(graphiql=True, schema=blog_schema)),
     # path("", include('vacancy.urls'))
 ]
 if settings.DEBUG:
