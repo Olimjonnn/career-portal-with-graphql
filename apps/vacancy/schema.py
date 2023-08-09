@@ -258,6 +258,10 @@ class UpdateVacancy(graphene.Mutation):
                 else:
                     Requirement.objects.create(description=req_description, vacancy=vacancy)
         
+            if len(existing_requirements) > 0:
+                for i in existing_requirements.values():
+                    i.delete()
+
         if responsibilities is not None:
             existing_responsibilities = {res.description: res for res in vacancy.responsibilities.all()}
             for res_description in responsibilities:
@@ -266,6 +270,9 @@ class UpdateVacancy(graphene.Mutation):
                     res.save()
                 else:
                     Responsibility.objects.create(description=res_description, vacancy=vacancy)
+            if len(existing_responsibilities) > 0:
+                for i in existing_responsibilities.values():
+                    i.delete()
 
         if conditions is not None:
             existing_conditions = {res.description: res for res in vacancy.conditions.all()}
@@ -275,6 +282,9 @@ class UpdateVacancy(graphene.Mutation):
                     con.save()
                 else:
                     Responsibility.objects.create(description=res_description, vacancy=vacancy)
+            if len(existing_conditions) > 0:
+                for i in existing_conditions.values():
+                    i.delete()
 
         return UpdateVacancy(vacancy=vacancy)
     
